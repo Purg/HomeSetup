@@ -1,0 +1,67 @@
+" Pathogen
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+" Setting highlighting for .txx files
+au BufNewFile,BufRead *.txx set filetype=cpp
+
+" Tab and indentation things
+set autoindent
+set ts=2
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set nowrap
+
+" Line numbers
+set number
+
+" Disable all mouse options when not in gui
+if has('gui_running')
+  set mouse=a
+else
+  set mouse=
+endif
+
+" Show me things!
+set showmatch
+set showmode
+set hlsearch
+
+" trailing white-space highlighting
+highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+au BufWinEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhitespace /\s\+$/
+au BufWinLeave * call clearmatches()
+
+" Folding options
+set foldmethod=syntax
+
+" Color setup
+if has('gui_running')
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme elflord
+endif
+
+" Resplit windows
+function! Resplit(splitcmd)
+    let curbuf = bufnr("%")
+    wincmd x
+    let otherbuf = bufnr("%")
+    if curbuf != otherbuf
+        close
+        exec "buffer " . otherbuf
+        exec a:splitcmd
+        exec "buffer " . curbuf
+    endif
+endfunction
+ 
+nmap <C-w>y :call Resplit("split")<CR>
+nmap <C-w>Y :call Resplit("vsplit")<CR>
+
