@@ -5,7 +5,7 @@
 # (backs up and existing files when found)
 #
 
-now=$(date +"%Y%m%d%H%M%S")
+now=$(date +"%Y-%m-%d_%H-%M-%S")
 my_home="${HOME}"
 
 cd "${my_home}"
@@ -21,7 +21,10 @@ cd "${my_home}"
 function backup_and_link() {
   source="$1"
   target="$2"
-  [ -f "${my_home}/${target}" ] && mv "${my_home}/${target}" "${my_home}/${target}.${now}"
+  echo "Linking ${my_home}/${target} -> .local/etc/linux-home/${source}"
+  [ -f "${my_home}/${target}" -o -d "${my_home}/${target}" ] \
+    && echo "-- Backing up existing file: ${my_home}/${target} -> ${my_home}/${target}.${now}" \
+    && mv "${my_home}/${target}" "${my_home}/${target}.${now}"
   ln -s ".local/etc/linux-home/${source}" "${my_home}/${target}"
 }
 

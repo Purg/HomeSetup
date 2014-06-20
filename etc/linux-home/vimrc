@@ -61,7 +61,7 @@ function! Resplit(splitcmd)
         exec "buffer " . curbuf
     endif
 endfunction
- 
+
 nmap <C-w>y :call Resplit("split")<CR>
 nmap <C-w>Y :call Resplit("vsplit")<CR>
 
