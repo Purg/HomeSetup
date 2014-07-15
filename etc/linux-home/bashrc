@@ -43,3 +43,23 @@ export C_INCLUDE_PATH=$HOME/.local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=$HOME/.local/include:$CPLUS_INCLUDE_PATH
 # cpp as in the c-preprocessor, not c++
 export CPPFLAGS="-I$HOME/.local/include $CPPFLAGS"
+
+# If we have virtualenvwrapper installed, lets attempt to set it up
+if [ -n "$(which virtualenvwrapper.sh 2>/dev/null)" ]
+then
+  WORKON_HOME=$HOME/.virtualenv_home
+
+  # Create the directory if it doesn't exist
+  if [ ! -e "${WORKON_HOME}" ]; then mkdir "${WORKON_HOME}"; fi
+
+  # If its not a directory at this point, Warn and do not proceed, else
+  # continue as normal
+  if [ -d "${WORKON_HOME}" ]
+  then
+    export WORKON_HOME="${WORKON_HOME}"
+    . "$(which virtualenvwrapper.sh 2>/dev/null)"
+  else
+    echo "WARNING: WORKON_HOME (${WORKON_HOME}) is currently not a"
+    echo "         directory. Unable to setup virtualenvwrapper"
+  fi
+fi

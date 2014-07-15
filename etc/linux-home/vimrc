@@ -9,7 +9,6 @@ au BufNewFile,BufRead *.txx set filetype=cpp
 " Tab and indentation things
 set autoindent
 set ts=2
-set tabstop=2
 set shiftwidth=2
 set expandtab
 set nowrap
