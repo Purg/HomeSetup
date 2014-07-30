@@ -15,3 +15,5 @@
 	excludesfile = /home/purg/.gitignore.global
 [diff]
 	tool = gvimdiff
+[push]
+	default = upstream
