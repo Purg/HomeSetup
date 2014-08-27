@@ -1,0 +1,3 @@
+[submodule "etc/linux-home/vim/bundle/nerdtree"]
+	path = etc/linux-home/vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
