@@ -10,56 +10,66 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-export PATH=$HOME/.local/bin:$PATH
-export PYTHONPATH=$PYTHONPATH
-export LD_LIBRARY_PATH=$HOME/.local/lib64:$HOME/.local/lib:/opt/local/lib64:/opt/local/lib:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
-export MANPATH=$HOME/.local/share/man:$MANPATH
-
-# !!! NOT proceeding if non-interactive !!! #
-if [[ $- != *i* ]]; then
-    return
-fi
-
-# Activate bash completion script if present
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-
-# PS1 command line customization
-PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-
-# Activate git prompting when requisite file available
-if [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
-    . /usr/share/git-core/contrib/completion/git-prompt.sh
-    GIT_PS1_SHOWDIRTYSTATE=1
-fi
-
-export EDITOR=vim
-export LESS="RM"
-
-# Common build extension variables
-export LDFLAGS="-L$HOME/.local/lib64 -L$HOME/.local/lib $LDFLAGS"
-export C_INCLUDE_PATH=$HOME/.local/include:$C_INCLUDE_PATH
-export CPLUS_INCLUDE_PATH=$HOME/.local/include:$CPLUS_INCLUDE_PATH
-# cpp as in the c-preprocessor, not c++
-export CPPFLAGS="-I$HOME/.local/include $CPPFLAGS"
-
-# If we have virtualenvwrapper installed, lets attempt to set it up
-if [ -n "$(which virtualenvwrapper.sh 2>/dev/null)" ]
+# One-time setup stuff
+if [ -z "${PURG_BASH_ACTIVE}" ]
 then
-  WORKON_HOME=$HOME/.virtualenv_home
 
-  # Create the directory if it doesn't exist
-  if [ ! -e "${WORKON_HOME}" ]; then mkdir "${WORKON_HOME}"; fi
+  export PATH=$HOME/.local/bin:$PATH
+  #export PYTHONPATH=$PYTHONPATH
+  export LD_LIBRARY_PATH=$HOME/.local/lib64:$HOME/.local/lib:/opt/local/lib64:/opt/local/lib:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+  export MANPATH=$HOME/.local/share/man:$MANPATH
 
-  # If its not a directory at this point, Warn and do not proceed, else
-  # continue as normal
-  if [ -d "${WORKON_HOME}" ]
+  export EDITOR=vim
+  export LESS="RM"
+
+  # Common build extension variables
+  export LDFLAGS="-L$HOME/.local/lib64 -L$HOME/.local/lib $LDFLAGS"
+  export C_INCLUDE_PATH=$HOME/.local/include:/opt/AMDAPP/include:$C_INCLUDE_PATH
+  export CPLUS_INCLUDE_PATH=$HOME/.local/include:/opt/AMDAPP/include:$CPLUS_INCLUDE_PATH
+  # cpp as in the c-preprocessor, not c++
+  export CPPFLAGS="-I$HOME/.local/include -I/opt/AMDAPP/include $CPPFLAGS"
+
+  # If we have virtualenvwrapper installed, lets attempt to set it up
+  if [ -n "$(which virtualenvwrapper.sh 2>/dev/null)" ]
   then
-    export WORKON_HOME="${WORKON_HOME}"
-    . "$(which virtualenvwrapper.sh 2>/dev/null)"
-  else
-    echo "WARNING: WORKON_HOME (${WORKON_HOME}) is currently not a"
-    echo "         directory. Unable to setup virtualenvwrapper"
+    WORKON_HOME=$HOME/.virtualenv_home
+
+    # Create the directory if it doesn't exist
+    if [ ! -e "${WORKON_HOME}" ]; then mkdir "${WORKON_HOME}"; fi
+
+    # If its not a directory at this point, Warn and do not proceed, else
+    # continue as normal
+    if [ -d "${WORKON_HOME}" ]
+    then
+      export WORKON_HOME="${WORKON_HOME}"
+      . "$(which virtualenvwrapper.sh 2>/dev/null)"
+    else
+      echo "WARNING: WORKON_HOME (${WORKON_HOME}) is currently not a"
+      echo "         directory. Unable to setup virtualenvwrapper"
+    fi
+  fi
+
+  # Setup custom software
+  . $HOME/Software/setup.sh
+
+  export PURG_BASH_ACTIVE=1
+fi  # PURG_BASH_ACTIVE
+
+
+# After this, we only setup things meant for interactive consoles
+if [[ $- = *i* ]]; then
+  # Activate bash completion script if present
+  if [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+  fi
+
+  # PS1 command line customization
+  PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+
+  # Activate git prompting when requisite file available
+  if [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
+      . /usr/share/git-core/contrib/completion/git-prompt.sh
+      GIT_PS1_SHOWDIRTYSTATE=1
   fi
 fi
+
