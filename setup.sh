@@ -19,13 +19,30 @@ cd "${my_home}"
 # "target" is the target file to be placed in the $HOME directory.
 #
 function backup_and_link() {
-  source="$1"
-  target="$2"
-  echo "Linking ${my_home}/${target} -> .local/etc/linux-home/${source}"
-  [ -f "${my_home}/${target}" -o -d "${my_home}/${target}" ] \
-    && echo "-- Backing up existing file: ${my_home}/${target} -> ${my_home}/${target}.${now}" \
-    && mv "${my_home}/${target}" "${my_home}/${target}.${now}"
-  ln -s ".local/etc/linux-home/${source}" "${my_home}/${target}"
+  source=".local/etc/linux-home/$1"
+  target="${my_home}/$2"
+
+  # echo "Linking ${target} -> ${source}"
+  # [ -f "${my_home}/${target}" -o -d "${my_home}/${target}" ] \
+  #   && [ ! -L "${my_home}/${target}" ] \
+  #   && echo "-- Backing up existing file: ${my_home}/${target} -> ${my_home}/${target}.${now}" \
+  #   && mv "${my_home}/${target}" "${my_home}/${target}.${now}"
+
+  echo "${target} -> ${source}"
+  if [ -L "${target}" -a "$(readlink ${target})" = "${source}" ]
+  then
+    echo "-- Link already exists"
+  else
+    if [ -f "${target}" -o -d "${target}" ]
+    then
+      backup_target="${target}.${now}"
+      echo "-- Backing up existing file: ${target} -> ${backup_target}"
+      mv "${target}" "${backup_target}"
+    fi
+
+    echo "-- Linking"
+    ln -s "${source}" "${target}"
+  fi
 }
 
 #
@@ -39,6 +56,7 @@ backup_and_link emacs .emacs
 backup_and_link gitconfig .gitconfig
 backup_and_link gitignore.global .gitignore.global
 backup_and_link tmux.conf .tmux.conf
+backup_and_link tmux .tmux
 backup_and_link vimrc .vimrc
 backup_and_link vim .vim
 
