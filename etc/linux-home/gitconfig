@@ -14,7 +14,10 @@
 [core]
 	excludesfile = /home/purg/.gitignore.global
 [diff]
-	tool = gvimdiff
+  tool = gvimdiff
+[merge]
+  log = true
+  ff = false
 [push]
 	default = upstream
 [fetch]
