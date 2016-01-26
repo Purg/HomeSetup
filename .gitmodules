@@ -7,4 +7,6 @@
 [submodule "etc/linux-home/tmux/plugins/tpm"]
   path = etc/linux-home/tmux/plugins/tpm
   url = https://github.com/tmux-plugins/tpm
-  branch = v3.0.0
+[submodule "etc/linux-home/tmux/plugins/tmux-resurrect"]
+  path = etc/linux-home/tmux/plugins/tmux-resurrect
+  url = https://github.com/tmux-plugins/tmux-resurrect.git
