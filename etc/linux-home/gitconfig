@@ -1,5 +1,5 @@
 [alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 [user]
 	name = Paul Tunison
 	email = paul.tunison@kitware.com
@@ -17,3 +17,5 @@
 	tool = gvimdiff
 [push]
 	default = upstream
+[fetch]
+  prune = true

@@ -4,8 +4,25 @@ alias ll='ls -lhF'
 alias l='ls'
 alias l.='ls -A'
 
+alias rm="rm -I"
+
 alias rset="reset && tmux clear-history"
 
-alias gmerge="git merge --log --no-ff"
-
 alias grep="grep --color"
+
+# Solved via git config settings merge.ff and merge.log
+
+# Setting certain values to git config merge.ff and merge.log
+# causes analogous functionality, but causes gerrit2 pushing
+# problems.
+#function git()
+#{
+#  git_exe=$(which git)
+#  if [ $# -gt 0 ] && [ $1 == "merge" ]
+#  then
+#    shift
+#    "${git_exe}" merge --no-ff --log "$@"
+#  else
+#    "${git_exe}" "$@"
+#  fi
+#}

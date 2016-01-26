@@ -13,44 +13,21 @@ fi
 # One-time setup stuff
 if [ -z "${PURG_BASH_ACTIVE}" ]
 then
+  # Opt install root
+  export PATH=/opt/local/bin:${PATH}
+  export LD_LIBRARY_PATH=/opt/local/lib64:/opt/local/lib:${LD_LIBRARY_PATH}
+  export MANPATH=/opt/local/share/man:${MANPATH}
 
-  export PATH=$HOME/.local/bin:$PATH
-  #export PYTHONPATH=$PYTHONPATH
-  export LD_LIBRARY_PATH=$HOME/.local/lib64:$HOME/.local/lib:/opt/local/lib64:/opt/local/lib:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
-  export MANPATH=$HOME/.local/share/man:$MANPATH
+  # Home install root
+  export PATH=${HOME}/.local/bin:${PATH}
+  export LD_LIBRARY_PATH=${HOME}/.local/lib64:${HOME}/.local/lib:${LD_LIBRARY_PATH}
+  export MANPATH=${HOME}/.local/share/man:${MANPATH}
+
+  # Miniconda env
+  export PATH=${HOME}/miniconda/bin:${PATH}
 
   export EDITOR=vim
   export LESS="RM"
-
-  # Common build extension variables
-  export LDFLAGS="-L$HOME/.local/lib64 -L$HOME/.local/lib $LDFLAGS"
-  export C_INCLUDE_PATH=$HOME/.local/include:/opt/AMDAPP/include:$C_INCLUDE_PATH
-  export CPLUS_INCLUDE_PATH=$HOME/.local/include:/opt/AMDAPP/include:$CPLUS_INCLUDE_PATH
-  # cpp as in the c-preprocessor, not c++
-  export CPPFLAGS="-I$HOME/.local/include -I/opt/AMDAPP/include $CPPFLAGS"
-
-  # If we have virtualenvwrapper installed, lets attempt to set it up
-  if [ -n "$(which virtualenvwrapper.sh 2>/dev/null)" ]
-  then
-    WORKON_HOME=$HOME/.virtualenv_home
-
-    # Create the directory if it doesn't exist
-    if [ ! -e "${WORKON_HOME}" ]; then mkdir "${WORKON_HOME}"; fi
-
-    # If its not a directory at this point, Warn and do not proceed, else
-    # continue as normal
-    if [ -d "${WORKON_HOME}" ]
-    then
-      export WORKON_HOME="${WORKON_HOME}"
-      . "$(which virtualenvwrapper.sh 2>/dev/null)"
-    else
-      echo "WARNING: WORKON_HOME (${WORKON_HOME}) is currently not a"
-      echo "         directory. Unable to setup virtualenvwrapper"
-    fi
-  fi
-
-  # Setup custom software
-  . $HOME/Software/setup.sh
 
   export PURG_BASH_ACTIVE=1
 fi  # PURG_BASH_ACTIVE
@@ -71,5 +48,12 @@ if [[ $- = *i* ]]; then
       . /usr/share/git-core/contrib/completion/git-prompt.sh
       GIT_PS1_SHOWDIRTYSTATE=1
   fi
+
+  # Add ssh agent env variables if not found
+  if [ "${SSH_AGENT_PID}" = "" ]
+  then
+    eval $(keychain --agents ssh --eval --quiet)
+  fi
+
 fi
 

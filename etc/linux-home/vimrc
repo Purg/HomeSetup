@@ -3,6 +3,9 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
+" NERDTree auto-start
+" autocmd vimenter * NERDTree
+
 " Setting highlighting for .txx files
 au BufNewFile,BufRead *.txx set filetype=cpp
 
@@ -11,10 +14,12 @@ set autoindent
 set ts=2
 set shiftwidth=2
 set expandtab
+set smarttab
 set nowrap
 
 " Line numbers
 set number
+" set cursorline
 
 " Disable all mouse options when not in gui
 if has('gui_running')
@@ -63,4 +68,3 @@ endfunction
 
 nmap <C-w>y :call Resplit("split")<CR>
 nmap <C-w>Y :call Resplit("vsplit")<CR>
-

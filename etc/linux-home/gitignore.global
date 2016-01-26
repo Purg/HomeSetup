@@ -1,5 +1,12 @@
-.*.swp
-.*.swo
-*.pyc
-*.pyo
-.idea
+.*.sw[op]
+*~
+*.py[cod]
+.ipynb_checkpoints/
+/.idea
+
+# Colordescriptor things that we don't want committed
+colorDescriptor
+errors.log
+
+# CTags
+tags
