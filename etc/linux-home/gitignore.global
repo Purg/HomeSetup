@@ -3,6 +3,8 @@
 *.py[cod]
 .ipynb_checkpoints/
 /.idea
+.coverage
+.swp
 
 # Colordescriptor things that we don't want committed
 colorDescriptor

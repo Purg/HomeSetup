@@ -17,6 +17,8 @@ set expandtab
 set smarttab
 set nowrap
 
+set modeline
+
 " Line numbers
 set number
 " set cursorline
@@ -49,6 +51,8 @@ set foldmethod=syntax
 if has('gui_running')
   set background=dark
   colorscheme solarized
+  set lines=80
+  set columns=120
 else
   colorscheme elflord
 endif
