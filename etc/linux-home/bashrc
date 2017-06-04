@@ -16,30 +16,34 @@ fi
 # - run-once specific
 if [ -z "${PURG_BASH_ACTIVE}" ]
 then
+
+  # CUDA Toolkit
+  export PATH=/usr/local/cuda/bin:${PATH}
+  export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+
   # Opt install root
   export PATH=/opt/local/bin:${PATH}
   export LD_LIBRARY_PATH=/opt/local/lib64:/opt/local/lib:${LD_LIBRARY_PATH}
   export MANPATH=/opt/local/share/man:${MANPATH}
+
+  # Miniconda env
+  export PATH=${HOME}/miniconda/bin:${PATH}
 
   # Home install root
   export PATH=${HOME}/.local/bin:${PATH}
   export LD_LIBRARY_PATH=${HOME}/.local/lib64:${HOME}/.local/lib:${LD_LIBRARY_PATH}
   export MANPATH=${HOME}/.local/share/man:${MANPATH}
 
-  # Miniconda env
-  export PATH=${HOME}/miniconda/bin:${PATH}
-
-  # CUDA Toolkit
-  export PATH=/usr/local/cuda/bin:${PATH}
-  export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
-
   export PURG_BASH_ACTIVE=1
 fi  # PURG_BASH_ACTIVE
 
 
+#
 # Constant Variables
+#
 export EDITOR=vim
 export LESS="RM"
+
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 
@@ -64,6 +68,12 @@ if [[ $- = *i* ]]; then
   then
     eval $(keychain --agents ssh --eval --quiet)
   fi
+
+  # History controls
+  # Don't put duplicate lines or lines starting with a space in the history. 
+  HISTCONTROL=ignoreboth
+  # Append to hist instead of overwriting.
+  shopt -s histappend
 
   # Activate nvm install
   export NVM_DIR="${HOME}/.nvm"

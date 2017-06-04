@@ -21,6 +21,7 @@ cd "${my_home}"
 function backup_and_link() {
   source=".local/etc/linux-home/$1"
   target="${my_home}/$2"
+  echo "${target} -> ${source}"
 
   # echo "Linking ${target} -> ${source}"
   # [ -f "${my_home}/${target}" -o -d "${my_home}/${target}" ] \
@@ -28,11 +29,13 @@ function backup_and_link() {
   #   && echo "-- Backing up existing file: ${my_home}/${target} -> ${my_home}/${target}.${now}" \
   #   && mv "${my_home}/${target}" "${my_home}/${target}.${now}"
 
-  echo "${target} -> ${source}"
+  # Check if the target is currently a link and is referencing the given
+  # source.
   if [ -L "${target}" -a "$(readlink ${target})" = "${source}" ]
   then
     echo "-- Link already exists"
   else
+    # If the target already exists as a file or directory, back it up.
     if [ -f "${target}" -o -d "${target}" ]
     then
       backup_target="${target}.${now}"
@@ -44,6 +47,7 @@ function backup_and_link() {
     ln -s "${source}" "${target}"
   fi
 }
+
 
 #
 # Link pertinent files in the ${my_home} directory.
