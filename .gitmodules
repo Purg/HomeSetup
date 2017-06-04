@@ -9,4 +9,4 @@
   url = https://github.com/tmux-plugins/tpm
 [submodule "etc/linux-home/tmux/plugins/tmux-resurrect"]
   path = etc/linux-home/tmux/plugins/tmux-resurrect
-  url = https://github.com/tmux-plugins/tmux-resurrect.git
+  url = https://github.com/Purg/tmux-resurrect.git
