@@ -49,33 +49,59 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 # After this, we only setup things meant for interactive consoles
 if [[ $- = *i* ]]; then
+  #
   # Activate bash completion script if present
-  if [ -f /etc/bash_completion ]; then
-      . /etc/bash_completion
+  #
+  if [ -f /etc/bash_completion ]
+  then
+    . /etc/bash_completion
+  elif [ -f /usr/share/bash-completion/bash_completion ]
+  then
+    . /usr/share/bash-completion/bash_completion
   fi
 
+  #
+  # dircolors setup
+  #
+  if [ -x /usr/bin/dircolors ]
+  then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  fi
+
+  #
+  # Setup git things
+  #
+  # Activate git prompting when requisite file available
+  if [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ]
+  then
+      . /usr/share/git-core/contrib/completion/git-prompt.sh
+  elif [ -f /usr/lib/git-core/git-sh-prompt ]
+  then
+    . /usr/lib/git-core/git-sh-prompt
+  fi
   # PS1 command line customization
   PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+  GIT_PS1_SHOWDIRTYSTATE=1
 
-  # Activate git prompting when requisite file available
-  if [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
-      . /usr/share/git-core/contrib/completion/git-prompt.sh
-      GIT_PS1_SHOWDIRTYSTATE=1
-  fi
-
+  #
   # Add ssh agent env variables if not found
+  #
   if [ "${SSH_AGENT_PID}" = "" ]
   then
     eval $(keychain --agents ssh --eval --quiet)
   fi
 
+  #
   # History controls
+  #
   # Don't put duplicate lines or lines starting with a space in the history. 
   HISTCONTROL=ignoreboth
   # Append to hist instead of overwriting.
   shopt -s histappend
 
-  # Activate nvm install
+  #
+  # Activate nvm install if present.
+  #
   export NVM_DIR="${HOME}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
