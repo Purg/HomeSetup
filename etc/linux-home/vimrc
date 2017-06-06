@@ -54,7 +54,7 @@ if has('gui_running')
   set lines=80
   set columns=120
 else
-  colorscheme elflord
+  colorscheme slate
 endif
 
 " Resplit windows
