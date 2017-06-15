@@ -28,6 +28,8 @@ then
 
   # Miniconda env
   export PATH=${HOME}/miniconda/bin:${PATH}
+  export PATH=${HOME}/miniconda2/bin:${PATH}
+  export PATH=${HOME}/miniconda3/bin:${PATH}
 
   # Home install root
   export PATH=${HOME}/.local/bin:${PATH}
