@@ -81,9 +81,32 @@ if [[ $- = *i* ]]; then
   then
     . /usr/lib/git-core/git-sh-prompt
   fi
-  # PS1 command line customization
-  PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
   GIT_PS1_SHOWDIRTYSTATE=1
+
+  #
+  # PS1 command line customization
+  #
+  # Color a little for highlighting where the promt is.
+  #
+  # Forcing color support if possible (borrowed from ubuntu bashrc).
+  if [ -x /usr/bin/tput ] && tput setaf 1 &>/dev/null
+  then
+    color_prompt=1
+  else
+    if [ "$TERM" = cygwin ]
+    then
+      color_prompt=1
+    else
+      unset color_prompt
+    fi
+  fi
+
+  if [ "${color_prompt}" ]
+  then
+    PS1='[\[\033[01;32m\]\u@\h \[\033[01;34m\]\W\[\033[00m\]$(__git_ps1 " (%s)")]\$ '
+  else
+    PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+  fi
 
   #
   # Add ssh agent env variables if not found
