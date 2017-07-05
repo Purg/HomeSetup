@@ -103,9 +103,9 @@ if [[ $- = *i* ]]; then
 
   if [ "${color_prompt}" ]
   then
-    PS1='[\[\033[01;32m\]\u@\h \[\033[01;34m\]\W\[\033[00m\]$(__git_ps1 " (%s)")]\$ '
+    PS1='\[\033[01;32m\]\u@\h \[\033[01;34m\]\W\[\033[00m\]$(__git_ps1 " (%s)") \$ '
   else
-    PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+    PS1='\u@\h \W$(__git_ps1 " (%s)") \$ '
   fi
 
   #
@@ -129,6 +129,15 @@ if [[ $- = *i* ]]; then
   #
   export NVM_DIR="${HOME}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+  #
+  # ROS setup (if installed).
+  #
+  ROS_KINETIC_SETUP_BASH="/opt/ros/kinetic/setup.bash"
+  if [ -f "${ROS_KINETIC_SETUP_BASH}" ]
+  then
+    . "${ROS_KINETIC_SETUP_BASH}"
+  fi
 
 fi
 
