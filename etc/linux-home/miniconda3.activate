@@ -1,0 +1,11 @@
+#
+# Script to source to enable miniconda in a local terminal.
+#
+if [[ $- = *i* ]]
+then
+  if [ -z "${MINICONDA3_ACTIVE}" ]
+  then
+    export PATH=${HOME}/miniconda3/bin:${PATH}
+    export MINICONDA3_ACTIVE=1
+  fi
+fi

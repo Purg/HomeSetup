@@ -26,15 +26,22 @@ then
   export LD_LIBRARY_PATH=/opt/local/lib64:/opt/local/lib:${LD_LIBRARY_PATH}
   export MANPATH=/opt/local/share/man:${MANPATH}
 
-  # Miniconda env
-  export PATH=${HOME}/miniconda/bin:${PATH}
-  export PATH=${HOME}/miniconda2/bin:${PATH}
-  export PATH=${HOME}/miniconda3/bin:${PATH}
-
   # Home install root
   export PATH=${HOME}/.local/bin:${PATH}
   export LD_LIBRARY_PATH=${HOME}/.local/lib64:${HOME}/.local/lib:${LD_LIBRARY_PATH}
   export MANPATH=${HOME}/.local/share/man:${MANPATH}
+
+  #
+  # Android setup (if installed)
+  #
+  EXPECTED_ANDROID_HOME="${HOME}/Android/Sdk"
+  EXPECTED_ANDROID_NDK_HOME="${ANDROID_HOME}"
+  if [ -d "${EXPECTED_ANDROID_HOME}" ]
+  then
+    export ANDROID_HOME=${EXPECTED_ANDROID_HOME}
+    export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
+    export PATH=${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${PATH}
+  fi
 
   export PURG_BASH_ACTIVE=1
 fi  # PURG_BASH_ACTIVE

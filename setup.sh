@@ -19,6 +19,18 @@ cd "${my_home}"
 # "target" is the target file to be placed in the $HOME directory.
 #
 function backup_and_link() {
+  # Bad stuff happens if $1 or $2 are empty
+  if [ -z "$1" ]
+  then
+    echo "ERROR: Source file name missing"
+    return -1
+  fi
+  if [ -z "$2" ]
+  then
+    echo "ERROR: Target filename missing"
+    return -1
+  fi
+
   source=".local/etc/linux-home/$1"
   target="${my_home}/$2"
   echo "${target} -> ${source}"
@@ -63,4 +75,4 @@ backup_and_link tmux.conf .tmux.conf
 backup_and_link tmux .tmux
 backup_and_link vimrc .vimrc
 backup_and_link vim .vim
-
+backup_and_link miniconda3.activate miniconda3.activate
