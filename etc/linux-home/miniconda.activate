@@ -5,8 +5,25 @@ if [[ $- = *i* ]]
 then
   if [ -z "${MINICONDA_ACTIVE}" ]
   then
-    echo "Adding miniconda*/bin to the PATH."
-    export PATH=${HOME}/miniconda3/bin:${HOME}/miniconda2/bin:${HOME}/miniconda/bin:${PATH}
+
+    if [ -d "${HOME}/miniconda/bin" ]
+    then
+      echo "Adding ${HOME}/miniconda/bin to the PATH."
+      export "PATH=${HOME}/miniconda/bin:${PATH}"
+    fi
+
+    if [ -d "${HOME}/miniconda2/bin" ]
+    then
+      echo "Adding ${HOME}/miniconda2/bin to the PATH."
+      export "PATH=${HOME}/miniconda2/bin:${PATH}"
+    fi
+
+    if [ -d "${HOME}/miniconda3/bin" ]
+    then
+      echo "Adding ${HOME}/miniconda3/bin to the PATH."
+      export "PATH=${HOME}/miniconda3/bin:${PATH}"
+    fi
+
     export MINICONDA_ACTIVE=1
   else
     echo "Miniconda environment already activated."
