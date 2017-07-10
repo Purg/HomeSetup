@@ -137,14 +137,5 @@ if [[ $- = *i* ]]; then
   export NVM_DIR="${HOME}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-  #
-  # ROS setup (if installed).
-  #
-  ROS_KINETIC_SETUP_BASH="/opt/ros/kinetic/setup.bash"
-  if [ -f "${ROS_KINETIC_SETUP_BASH}" ]
-  then
-    . "${ROS_KINETIC_SETUP_BASH}"
-  fi
-
 fi
 
