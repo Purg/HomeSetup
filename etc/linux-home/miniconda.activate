@@ -1,0 +1,14 @@
+#
+# Script to source to enable miniconda in a local terminal.
+#
+if [[ $- = *i* ]]
+then
+  if [ -z "${MINICONDA_ACTIVE}" ]
+  then
+    echo "Adding miniconda*/bin to the PATH."
+    export PATH=${HOME}/miniconda3/bin:${HOME}/miniconda2/bin:${HOME}/miniconda/bin:${PATH}
+    export MINICONDA_ACTIVE=1
+  else
+    echo "Miniconda environment already activated."
+  fi
+fi

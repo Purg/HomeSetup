@@ -75,4 +75,4 @@ backup_and_link tmux.conf .tmux.conf
 backup_and_link tmux .tmux
 backup_and_link vimrc .vimrc
 backup_and_link vim .vim
-backup_and_link miniconda3.activate miniconda3.activate
+backup_and_link miniconda.activate miniconda.activate
