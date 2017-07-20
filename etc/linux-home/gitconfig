@@ -22,6 +22,7 @@
 	default = upstream
 [fetch]
   prune = true
+  recurseSubmodules = on-demand
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
