@@ -35,12 +35,17 @@ then
   # Android setup (if installed)
   #
   EXPECTED_ANDROID_HOME="${HOME}/Android/Sdk"
-  EXPECTED_ANDROID_NDK_HOME="${ANDROID_HOME}"
   if [ -d "${EXPECTED_ANDROID_HOME}" ]
   then
     export ANDROID_HOME=${EXPECTED_ANDROID_HOME}
-    export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
-    export PATH=${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_NDK_HOME}:${PATH}
+    export PATH=${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${PATH}
+  fi
+
+  EXPECTED_ANDROID_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
+  if [ -d "${EXPECTED_ANDROID_NDK_HOME}" ]
+  then
+    export ANDROID_NDK_HOME=${EXPECTED_ANDROID_NDK_HOME}
+    export PATH=${ANDROID_NDK_HOME}:${PATH}
   fi
 
   export PURG_BASH_ACTIVE=1
