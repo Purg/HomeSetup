@@ -17,7 +17,9 @@
   tool = gvimdiff
 [merge]
   log = true
-  ;ff = false
+  ff = false
+[pull]
+  ff = only
 [push]
 	default = upstream
 [fetch]
