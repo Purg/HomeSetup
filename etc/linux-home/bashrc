@@ -20,16 +20,22 @@ then
   # CUDA Toolkit
   export PATH=/usr/local/cuda/bin:${PATH}
   export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/lib:${LD_LIBRARY_PATH}
+  export C_INCLUDE_PATH=/usr/local/cuda/include:${C_INCLUDE_PATH}
+  export CPLUS_INCLUDE_PATH=/usr/local/cuda/include:${CPLUS_INCLUDE_PATH}
 
   # Opt install root
   export PATH=/opt/local/bin:${PATH}
   export LD_LIBRARY_PATH=/opt/local/lib64:/opt/local/lib:${LD_LIBRARY_PATH}
   export MANPATH=/opt/local/share/man:${MANPATH}
+  export C_INCLUDE_PATH=/opt/local/include:${C_INCLUDE_PATH}
+  export CPLUS_INCLUDE_PATH=/opt/local/include:${CPLUS_INCLUDE_PATH}
 
   # Home install root
   export PATH=${HOME}/.local/bin:${PATH}
   export LD_LIBRARY_PATH=${HOME}/.local/lib64:${HOME}/.local/lib:${LD_LIBRARY_PATH}
   export MANPATH=${HOME}/.local/share/man:${MANPATH}
+  export C_INCLUDE_PATH=${HOME}/.local/include:${C_INCLUDE_PATH}
+  export CPLUS_INCLUDE_PATH=${HOME}/.local/include:${CPLUS_INCLUDE_PATH}
 
   #
   # Android setup (if installed)
