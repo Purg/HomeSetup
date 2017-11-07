@@ -29,3 +29,10 @@ then
     echo "Miniconda environment already activated."
   fi
 fi
+
+# Optionally activate a specific environment if a positional argument specified
+if [ $# -gt 0 ]
+then
+  echo "Activating miniconda env: \"${1}\""
+  . activate "${1}"
+fi
