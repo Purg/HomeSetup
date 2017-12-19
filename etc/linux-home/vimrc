@@ -23,7 +23,7 @@ set modeline
 set number
 " set cursorline
 
-" Disable all mouse options when not in gui
+" Disable all mouse options when not in GUI
 if has('gui_running')
   set mouse=a
 else
@@ -34,6 +34,11 @@ endif
 set showmatch
 set showmode
 set hlsearch
+
+" Enable spell checking
+set spelllang=en
+set spellfile=$HOME/.vim/spellfile.en.utf-8.add
+set spell
 
 " trailing white-space highlighting
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -57,7 +62,7 @@ else
   colorscheme slate
 endif
 
-" Resplit windows
+" Re-split windows
 function! Resplit(splitcmd)
     let curbuf = bufnr("%")
     wincmd x
