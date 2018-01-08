@@ -65,6 +65,7 @@ function backup_and_link() {
 # Link pertinent files in the ${my_home} directory.
 #
 backup_and_link bashrc .bashrc
+backup_and_link inputrc .inputrc
 backup_and_link bash_aliases .bash_aliases
 backup_and_link bash_profile .bash_profile
 backup_and_link bash_logout .bash_logout
