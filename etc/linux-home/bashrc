@@ -148,5 +148,23 @@ if [[ $- = *i* ]]; then
   export NVM_DIR="${HOME}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+  #
+  # Miniconda non-invasive activation
+  #
+  # Source script that adds a `conda` bash function but does not initially
+  # activate any of its environments.
+  #
+  CONDA_SCRIPT="etc/profile.d/conda.sh"
+  if [ -f "${HOME}/miniconda/${CONDA_SCRIPT}" ]
+  then
+    . "${HOME}/miniconda/${CONDA_SCRIPT}"
+  elif [ -f "${HOME}/miniconda2/${CONDA_SCRIPT}" ]
+  then
+    . "${HOME}/miniconda2/${CONDA_SCRIPT}"
+  elif [ -f "${HOME}/miniconda3/${CONDA_SCRIPT}" ]
+  then
+    . "${HOME}/miniconda3/${CONDA_SCRIPT}"
+  fi
+
 fi
 
