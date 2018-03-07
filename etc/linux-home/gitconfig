@@ -20,7 +20,6 @@
   ff = false
 [pull]
   ff = only
-  rebase = preserve
 [push]
   default = upstream
 [fetch]
