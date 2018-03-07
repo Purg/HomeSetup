@@ -2,7 +2,7 @@
 *~
 *.py[cod]
 .ipynb_checkpoints/
-/.idea
+.idea
 .coverage
 .swp
 
