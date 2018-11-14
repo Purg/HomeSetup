@@ -165,6 +165,24 @@ if [[ $- = *i* ]]; then
   then
     . "${HOME}/miniconda3/${CONDA_SCRIPT}"
   fi
+  unset CONDA_SCRIPT
 
+  #
+  # Activate virtualenvwrapper if present.
+  #
+  VEW_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
+  if [ -f "${VEW_SCRIPT}" ]
+  then
+    export WORKON_HOME="${HOME}/.python_virtualenvs"
+    if [ ! -d "${WORKON_HOME}" ]
+    then
+      mkdir -p "${WORKON_HOME}"
+    fi
+    . "${VEW_SCRIPT}"
+  fi
+  unset VEW_SCRIPT
+
+  # Mark this TTY as usably for GPG stuff
+  export GPG_TTY=$(tty)
 fi
 
