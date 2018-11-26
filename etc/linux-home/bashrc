@@ -70,6 +70,20 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 # After this, we only setup things meant for interactive consoles
 if [[ $- = *i* ]]; then
   #
+  # Bash options and behavior
+  #
+  # -- History controls
+  # Don't put duplicate lines or lines starting with a space in the history.
+  HISTCONTROL=ignoreboth
+  # Append to hist instead of overwriting.
+  shopt -s histappend
+  #
+  # -- env variable expansion
+  # We want env variables to be expanded on pressing tab instead of having the
+  # `$` escaped.
+  shopt -s direxpand
+
+  #
   # Activate bash completion script if present
   #
   if [ -f /etc/bash_completion ]
@@ -133,14 +147,6 @@ if [[ $- = *i* ]]; then
   then
     eval $(keychain --agents ssh --eval --quiet)
   fi
-
-  #
-  # History controls
-  #
-  # Don't put duplicate lines or lines starting with a space in the history. 
-  HISTCONTROL=ignoreboth
-  # Append to hist instead of overwriting.
-  shopt -s histappend
 
   #
   # Activate nvm install if present.
