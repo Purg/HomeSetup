@@ -177,9 +177,9 @@ if [[ $- = *i* ]]; then
   # Activate virtualenvwrapper if present.
   #
   VEW_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
+  export WORKON_HOME="${HOME}/.python_virtualenvs"
   if [ -f "${VEW_SCRIPT}" ]
   then
-    export WORKON_HOME="${HOME}/.python_virtualenvs"
     if [ ! -d "${WORKON_HOME}" ]
     then
       mkdir -p "${WORKON_HOME}"
