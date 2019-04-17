@@ -49,6 +49,15 @@ au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhitespace /\s\+$/
 au BufWinLeave * call clearmatches()
 
+" Column width guide
+highlight OverLength ctermbg=darkcyan ctermfg=white guibg=#592929
+au ColorScheme * highlight OverLength ctermbg=darkcyan ctermfg=white guibg=#592929
+match OverLength /\%80v.\+/
+au BufWinEnter * match OverLength /\%80v.\+/
+au InsertEnter * match OverLength /\%80v.\+/
+au InsertLeave * match OverLength /\%80v.\+/
+au BufWinLeave * call clearmatches()
+
 " Folding options
 set foldmethod=syntax
 
