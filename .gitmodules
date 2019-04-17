@@ -10,3 +10,6 @@
 [submodule "etc/linux-home/tmux/plugins/tmux-resurrect"]
   path = etc/linux-home/tmux/plugins/tmux-resurrect
   url = https://github.com/Purg/tmux-resurrect.git
+[submodule "etc/linux-home/vim/bundle/vim-gitgutter"]
+	path = etc/linux-home/vim/bundle/vim-gitgutter
+	url = git://github.com/airblade/vim-gitgutter.git
