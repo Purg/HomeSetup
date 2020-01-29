@@ -72,3 +72,8 @@ backup_and_link tmux.conf .tmux.conf
 backup_and_link tmux .tmux
 backup_and_link vimrc .vimrc
 backup_and_link vim .vim
+
+#
+# Vundle install
+#
+vim +PluginInstall +qall

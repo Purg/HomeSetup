@@ -1,15 +1,9 @@
-[submodule "etc/linux-home/vim/bundle/nerdtree"]
-  path = etc/linux-home/vim/bundle/nerdtree
-  url = https://github.com/scrooloose/nerdtree.git
-[submodule "etc/linux-home/vim/bundle/vim-colors-solarized"]
-  path = etc/linux-home/vim/bundle/vim-colors-solarized
-  url = git://github.com/altercation/vim-colors-solarized.git
 [submodule "etc/linux-home/tmux/plugins/tpm"]
   path = etc/linux-home/tmux/plugins/tpm
   url = https://github.com/tmux-plugins/tpm
 [submodule "etc/linux-home/tmux/plugins/tmux-resurrect"]
   path = etc/linux-home/tmux/plugins/tmux-resurrect
   url = https://github.com/Purg/tmux-resurrect.git
-[submodule "etc/linux-home/vim/bundle/vim-gitgutter"]
-	path = etc/linux-home/vim/bundle/vim-gitgutter
-	url = git://github.com/airblade/vim-gitgutter.git
+[submodule "etc/linux-home/vim/bundle/Vundle.vim"]
+	path = etc/linux-home/vim/bundle/Vundle.vim
+	url = https://github.com/VundleVim/Vundle.vim.git

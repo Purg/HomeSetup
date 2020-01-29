@@ -1,17 +1,58 @@
 set encoding=utf8
 
-" Pathogen
-execute pathogen#infect()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vundle Configuration
+"
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+call vundle#begin('~/.vim-local')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Utility
+Plugin 'scrooloose/nerdtree'
+Plugin 'majutsushi/tagbar'
+
+" Git
+Plugin 'mhinz/vim-signify'
+
+" Theme / Interface
+Plugin 'micha/vim-colors-solarized'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin/Bundle configuration
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim Configuration Options
+
 syntax on
-filetype plugin indent on
 
-" NERDTree auto-start
-" autocmd vimenter * NERDTree
-
-" Setting highlighting for .txx files
+" Setting highlighting for .txx files to C++
 au BufNewFile,BufRead *.txx set filetype=cpp
 
-" Tab and indentation things
+" Default tab and indentation things
 set autoindent
 set ts=2
 set shiftwidth=2
@@ -21,21 +62,20 @@ set nowrap
 
 set modeline
 
+" Always display the status line
+set laststatus=2
 " Line numbers
 set number
+" Highlight/underline current line
 set cursorline
-
-" Disable all mouse options when not in GUI
-if has('gui_running')
-  set mouse=a
-else
-  set mouse=
-endif
 
 " Show me things!
 set showmatch
 set showmode
 set hlsearch
+
+" Folding options
+set foldmethod=syntax
 
 " Enable spell checking
 set spelllang=en
@@ -48,7 +88,8 @@ au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au BufWinEnter,InsertEnter,InsertLeave * call matchadd('ExtraWhitespace', '\s\+$', 11)
 au BufWinLeave * call clearmatches()
 
-" Column width guide
+" Column width guide - show when exceeding a certain number of characters on a
+" line.
 " TODO: The following is conflicting with the above. Match calls seem to be
 "       overwriting the above match calls?
 highlight OverLength ctermbg=darkcyan ctermfg=white guibg=#592929
@@ -56,11 +97,28 @@ au ColorScheme * highlight OverLength ctermbg=darkcyan ctermfg=white guibg=#5929
 au BufWinEnter,InsertEnter,InsertLeave * call matchadd('OverLength', '\%80v.\+')
 au BufWinLeave * call clearmatches()
 
-" Folding options
-set foldmethod=syntax
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Key Mappings
+
+map <C-n> :NERDTreeToggle<CR>
+map <C-m> :TagbarToggle<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Differences when using gvim
+"
+
+" Disable all mouse options when not in GUI
+if has('gui_running')
+  set mouse=a
+else
+  set mouse=
+endif
 
 " Color setup
 if has('gui_running')
+  set guifont=Monospace\ Regular\ 9
   set background=dark
   colorscheme solarized
   set lines=80
@@ -68,19 +126,3 @@ if has('gui_running')
 else
   colorscheme slate
 endif
-
-" Re-split windows
-function! Resplit(splitcmd)
-    let curbuf = bufnr("%")
-    wincmd x
-    let otherbuf = bufnr("%")
-    if curbuf != otherbuf
-        close
-        exec "buffer " . otherbuf
-        exec a:splitcmd
-        exec "buffer " . curbuf
-    endif
-endfunction
-
-nmap <C-w>y :call Resplit("split")<CR>
-nmap <C-w>Y :call Resplit("vsplit")<CR>
