@@ -1,3 +1,5 @@
+set encoding=utf8
+
 " Pathogen
 execute pathogen#infect()
 syntax on
@@ -21,7 +23,7 @@ set modeline
 
 " Line numbers
 set number
-" set cursorline
+set cursorline
 
 " Disable all mouse options when not in GUI
 if has('gui_running')
@@ -38,7 +40,7 @@ set hlsearch
 " Enable spell checking
 set spelllang=en
 set spellfile=$HOME/.vim/spellfile.en.utf-8.add
-set spell
+"set spell
 
 " trailing white-space highlighting
 highlight ExtraWhitespace ctermbg=red guibg=red

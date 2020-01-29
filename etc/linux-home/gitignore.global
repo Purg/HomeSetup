@@ -7,7 +7,6 @@
 .swp
 
 # Colordescriptor things that we don't want committed
-colorDescriptor
 errors.log
 
 # CTags

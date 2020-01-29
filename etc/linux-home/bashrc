@@ -201,5 +201,13 @@ if [[ $- = *i* ]]; then
 
   # Mark this TTY as usably for GPG stuff
   export GPG_TTY=$(tty)
+
+  #
+  # Activate thefuck alias
+  #
+  if [ -n "$(which thefuck 2>/dev/null)" ]
+  then
+    eval $(thefuck --alias)
+  fi
 fi
 
