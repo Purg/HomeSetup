@@ -36,10 +36,6 @@ function backup_and_link() {
   echo "${target} -> ${source}"
 
   # echo "Linking ${target} -> ${source}"
-  # [ -f "${my_home}/${target}" -o -d "${my_home}/${target}" ] \
-  #   && [ ! -L "${my_home}/${target}" ] \
-  #   && echo "-- Backing up existing file: ${my_home}/${target} -> ${my_home}/${target}.${now}" \
-  #   && mv "${my_home}/${target}" "${my_home}/${target}.${now}"
 
   # Check if the target is currently a link and is referencing the given
   # source.
