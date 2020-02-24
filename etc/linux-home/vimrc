@@ -124,5 +124,6 @@ if has('gui_running')
   set lines=80
   set columns=120
 else
+  set background=dark
   colorscheme slate
 endif
