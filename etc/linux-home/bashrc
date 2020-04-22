@@ -171,18 +171,22 @@ if [[ $- = *i* ]]; then
   # Source script that adds a `conda` bash function but does not initially
   # activate any of its environments.
   #
+  CONDA_INSTALL_HINTS=( "${HOME}/miniconda"
+                        "${HOME}/miniconda2"
+                        "${HOME}/miniconda3" )
   CONDA_SCRIPT="etc/profile.d/conda.sh"
-  if [ -f "${HOME}/miniconda/${CONDA_SCRIPT}" ]
-  then
-    . "${HOME}/miniconda/${CONDA_SCRIPT}"
-  elif [ -f "${HOME}/miniconda2/${CONDA_SCRIPT}" ]
-  then
-    . "${HOME}/miniconda2/${CONDA_SCRIPT}"
-  elif [ -f "${HOME}/miniconda3/${CONDA_SCRIPT}" ]
-  then
-    . "${HOME}/miniconda3/${CONDA_SCRIPT}"
-  fi
-  unset CONDA_SCRIPT
+  for INSTALL_HINT in "${CONDA_INSTALL_HINTS[@]}"
+  do
+    CONDA_SCRIPT_ACTUAL="${INSTALL_HINT}/${CONDA_SCRIPT}"
+    echo "Trying: '$CONDA_SCRIPT_ACTUAL'"
+    if [ -f "$CONDA_SCRIPT_ACTUAL" ]
+    then
+      echo "Activating scriupt: '$CONDA_SCRIPT_ACTUAL'"
+      . "$CONDA_SCRIPT_ACTUAL"
+      break
+    fi
+  done
+  unset CONDA_SCRIPT CONDA_INSTALL_HINTS
 
   #
   # Activate virtualenvwrapper if present.
@@ -210,4 +214,3 @@ if [[ $- = *i* ]]; then
     eval $(thefuck --alias)
   fi
 fi
-
