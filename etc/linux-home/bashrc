@@ -178,10 +178,8 @@ if [[ $- = *i* ]]; then
   for INSTALL_HINT in "${CONDA_INSTALL_HINTS[@]}"
   do
     CONDA_SCRIPT_ACTUAL="${INSTALL_HINT}/${CONDA_SCRIPT}"
-    echo "Trying: '$CONDA_SCRIPT_ACTUAL'"
     if [ -f "$CONDA_SCRIPT_ACTUAL" ]
     then
-      echo "Activating scriupt: '$CONDA_SCRIPT_ACTUAL'"
       . "$CONDA_SCRIPT_ACTUAL"
       break
     fi
