@@ -12,7 +12,7 @@
   status = auto
   ui = auto
 [core]
-  excludesfile = /home/purg/.gitignore.global
+  excludesfile = ~/.gitignore.global
 [diff]
   tool = gvimdiff
 [merge]
