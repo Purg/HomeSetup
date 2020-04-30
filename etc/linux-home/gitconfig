@@ -18,6 +18,9 @@
 [merge]
   log = true
   ff = false
+[pager]
+  branch = false
+  stash = false
 [pull]
   ff = only
 [push]
