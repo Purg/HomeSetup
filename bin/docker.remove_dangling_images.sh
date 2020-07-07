@@ -7,4 +7,4 @@ then
     exit 0
 fi
 echo "Attempting to remove ${#IMAGE_LIST[@]} dangling images."
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+docker rmi "${IMAGE_LIST[@]}"
