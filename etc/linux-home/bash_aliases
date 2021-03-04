@@ -17,28 +17,15 @@ alias rset="reset && tmux clear-history"
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-#
-# Solved via git config settings merge.ff and merge.log
-#
-# Setting certain values to git config merge.ff and merge.log
-# causes analogous functionality, but causes gerrit2 pushing
-# problems.
-#function git()
-#{
-#  git_exe=$(which git)
-#  if [ $# -gt 0 ] && [ $1 == "merge" ]
-#  then
-#    shift
-#    "${git_exe}" merge --no-ff --log "$@"
-#  else
-#    "${git_exe}" "$@"
-#  fi
-#}
-
 # Lazy docker alias
 # https://github.com/jesseduffield/lazydocker
-alias lazydocker="\
-  docker run --rm -it \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v ${HOME}/.config/lazydocker:/.config/jesseduffield/lazydocker \
-  lazyteam/lazydocker"
+#alias lazydocker="docker run --rm -it \
+#  -v /var/run/docker.sock:/var/run/docker.sock \
+#  -v ${HOME}/.config/lazydocker:/.config/jesseduffield/lazydocker \
+#  lazyteam/lazydocker"
+
+# Simple XClip-based clipboard piping into clipboard (Ctrl-V pastable)
+alias copy="xclip -rmlastnl -selection clipboard"
+
+# Virtualenv aliases
+alias lsvirtualenv="lsvirtualenv -b"
