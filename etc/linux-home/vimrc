@@ -121,8 +121,6 @@ if has('gui_running')
   set guifont=Monospace\ Regular\ 9
   set background=dark
   colorscheme solarized
-  set lines=80
-  set columns=120
 else
   set background=dark
   colorscheme slate
