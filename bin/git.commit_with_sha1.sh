@@ -1,0 +1,1 @@
+from_so/git.commit_with_sha1.sh
