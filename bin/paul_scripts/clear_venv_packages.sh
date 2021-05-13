@@ -25,4 +25,6 @@ then
   else
     echo "Exiting unchanged."
   fi
+else
+  echo "Nothing to extra to uninstall."
 fi

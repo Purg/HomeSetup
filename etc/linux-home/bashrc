@@ -201,6 +201,14 @@ if [[ $- = *i* ]]; then
   fi
   unset VEW_SCRIPT
 
+  # Export Poetry user-space bin if present in default location
+  # and not already in the PATH (nested environments).
+  POETRY_BIN="${HOME}/.poetry/bin"
+  if [[ -d "$POETRY_BIN" ]] && [[ "$PATH" != *"$POETRY_BIN"* ]]
+  then
+    export PATH="${POETRY_BIN}:${PATH}"
+  fi
+
   # Mark this TTY as usably for GPG stuff
   export GPG_TTY=$(tty)
 
