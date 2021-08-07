@@ -191,7 +191,16 @@ if [[ $- = *i* ]]; then
   #
   VEW_SCRIPT="${HOME}/.local/bin/virtualenvwrapper.sh"
   export WORKON_HOME="${HOME}/.python_virtualenvs"
-  if [ -f "${VEW_SCRIPT}" ]
+  export VIRTUALENVWRAPPER_PYTHON="$(command -v python3)"
+  if [[ -z "${VIRTUALENVWRAPPER_PYTHON}" ]]
+  then
+    export VIRTUALENVWRAPPER_PYTHON="$(command -v python2)"
+    if [[ -z "${VIRTUALENVWRAPPER_PYTHON}" ]]
+    then
+      echo "WARNING: no python 2/3 available for virtualenvwrapper."
+    fi
+  fi
+  if [[ -f "${VEW_SCRIPT}" ]] && [[ -n "${VIRTUALENVWRAPPER_PYTHON}" ]]
   then
     if [ ! -d "${WORKON_HOME}" ]
     then
