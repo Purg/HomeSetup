@@ -29,3 +29,6 @@ alias copy="xclip -rmlastnl -selection clipboard"
 
 # Virtualenv aliases
 alias lsvirtualenv="lsvirtualenv -b"
+
+# ps but just for me
+alias mps="ps -U$(whoami) -H"

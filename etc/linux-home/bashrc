@@ -37,6 +37,9 @@ then
   export C_INCLUDE_PATH=${HOME}/.local/include:${C_INCLUDE_PATH}
   export CPLUS_INCLUDE_PATH=${HOME}/.local/include:${CPLUS_INCLUDE_PATH}
 
+  # Sonar-scanner
+  export PATH=${HOME}/sonar-scanner-4.6.2.2472-linux/bin:${PATH}
+
   #
   # Android setup (if installed)
   #
