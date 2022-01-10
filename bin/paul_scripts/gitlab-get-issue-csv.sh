@@ -73,6 +73,7 @@ then
   echo "ERROR: Could not find a group with the given name '$GROUP_NAME'"
   exit 1
 fi
+echo "Group \"${GROUP_NAME}\" ID: ${GROUP_ID}" >&2
 
 ISSUE_JSON="$(\
   curl -sX GET \
@@ -80,6 +81,7 @@ ISSUE_JSON="$(\
   https://gitlab.kitware.com/api/v4/groups/"${GROUP_ID}"/issues \
   -d per_page=100 \
   -d labels="${ISSUE_TAG}" \
+  -d state=opened \
 )"
 
 #echo "$ISSUE_JSON"
@@ -91,7 +93,6 @@ then
 fi
 
 echo "$ISSUE_JSON" \
-  | jq -r 'map(select(.closed_by == null))
-           | sort_by(.assignee.name, .project_id, .iid)
+  | jq -r 'sort_by(.assignee.name, .project_id, .iid)
            | .[]
            | [.references.relative, .title, .web_url, .assignee.name] | @csv'
