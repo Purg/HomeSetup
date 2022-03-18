@@ -7,6 +7,7 @@
 
 now=$(date +"%Y-%m-%d_%H-%M-%S")
 my_home="${HOME}"
+home_python_req="${my_home}/.local/requirements.txt"
 
 cd "${my_home}"
 
@@ -77,3 +78,8 @@ backup_and_link vim .vim
 # Vundle install
 #
 vim +PluginInstall +qall
+
+#
+# Install user-space python packages
+#
+pip install --user -r "${home_python_req}"

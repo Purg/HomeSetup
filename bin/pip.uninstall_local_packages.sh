@@ -1,0 +1,1 @@
+paul_scripts/pip.uninstall_local_packages.sh
