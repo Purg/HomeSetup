@@ -16,6 +16,8 @@ fi
 # - run-once specific
 if [ -z "${PURG_BASH_ACTIVE}" ]
 then
+  # Git safety
+  export GIT_CEILING_DIRECTORIES="${HOME}"
 
   # CUDA Toolkit
   export PATH=/usr/local/cuda/bin:${PATH}
