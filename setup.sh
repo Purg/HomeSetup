@@ -82,4 +82,4 @@ vim +PluginInstall +qall
 #
 # Install user-space python packages
 #
-pip install --user -r "${home_python_req}"
+pip3 install --user -r "${home_python_req}"
