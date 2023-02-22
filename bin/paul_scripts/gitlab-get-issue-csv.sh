@@ -17,6 +17,8 @@ function usage {
   echo "  -h, --help          Show this message."
   echo "  -f, --token-file    Path to a file containing access token value."
   echo "  -t, --tag           Non-default tag to get issues for."
+  echo "  -o, --office        Write the output CSV to a temp file, opening it "
+  echo "                      in LibreOffice Calc (removes file after exit)."
   echo
 }
 
@@ -41,6 +43,9 @@ do
     -t|--tag)
       ISSUE_TAG="$1"
       shift
+      ;;
+    -o|--office)
+      OPEN_IN_OFFICE=yes
       ;;
     *)
       POSITIONAL+=("$key")
@@ -92,7 +97,23 @@ then
   echo "         Consider updating this script to handle pagination." >&2
 fi
 
+function do_items_query()
+{
 echo "$ISSUE_JSON" \
   | jq -r 'sort_by(.assignee.name, .project_id, .iid)
            | .[]
            | [.references.relative, .title, .web_url, .assignee.name] | @csv'
+}
+
+if [[ "$OPEN_IN_OFFICE" != "yes" ]]
+then
+  do_items_query
+else
+  TMP_OUTPUT="$(mktemp --suffix=.csv)"
+  echo "INFO: Creating temp file: ${TMP_OUTPUT}"
+  do_items_query >"${TMP_OUTPUT}"
+  echo "INFO: Opening in LibreOffice"
+  libreoffice "$TMP_OUTPUT"
+  echo "INFO: Removing temp file: ${TMP_OUTPUT}"
+  rm "$TMP_OUTPUT"
+fi
