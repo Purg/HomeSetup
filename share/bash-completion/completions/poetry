@@ -1,4 +1,4 @@
-_poetry_19b43ccf55a7f940_complete()
+_poetry_53a0b26d6153f720_complete()
 {
     local cur script coms opts com
     COMPREPLY=()
@@ -21,7 +21,7 @@ _poetry_19b43ccf55a7f940_complete()
 
     # completing for an option
     if [[ ${cur} == --* ]] ; then
-        opts="--ansi --help --no-ansi --no-interaction --quiet --verbose --version"
+        opts="--ansi --help --no-ansi --no-cache --no-interaction --no-plugins --quiet --verbose --version"
 
         case "$com" in
 
@@ -30,14 +30,18 @@ _poetry_19b43ccf55a7f940_complete()
             ;;
 
             (add)
-            opts="${opts} --allow-prereleases --dev --dry-run --extras --lock --optional --platform --python --source"
+            opts="${opts} --allow-prereleases --dev --dry-run --editable --extras --group --lock --optional --platform --python --source"
             ;;
 
             (build)
             opts="${opts} --format"
             ;;
 
-            (cache)
+            ("cache clear")
+            opts="${opts} --all"
+            ;;
+
+            ("cache list")
             opts="${opts} "
             ;;
 
@@ -49,16 +53,32 @@ _poetry_19b43ccf55a7f940_complete()
             opts="${opts} --list --local --unset"
             ;;
 
-            (debug)
+            ("debug info")
             opts="${opts} "
             ;;
 
-            (env)
+            ("debug resolve")
+            opts="${opts} --extras --install --python --tree"
+            ;;
+
+            ("env info")
+            opts="${opts} --path"
+            ;;
+
+            ("env list")
+            opts="${opts} --full-path"
+            ;;
+
+            ("env remove")
+            opts="${opts} --all"
+            ;;
+
+            ("env use")
             opts="${opts} "
             ;;
 
             (export)
-            opts="${opts} --dev --extras --format --output --with-credentials --without-hashes"
+            opts="${opts} --dev --extras --format --only --output --with --with-credentials --without --without-hashes --without-urls"
             ;;
 
             (help)
@@ -70,23 +90,27 @@ _poetry_19b43ccf55a7f940_complete()
             ;;
 
             (install)
-            opts="${opts} --dry-run --extras --no-dev --no-root --remove-untracked"
+            opts="${opts} --all-extras --dry-run --extras --no-dev --no-root --only --only-root --remove-untracked --sync --with --without"
+            ;;
+
+            (list)
+            opts="${opts} "
             ;;
 
             (lock)
-            opts="${opts} --no-update"
+            opts="${opts} --check --no-update"
             ;;
 
             (new)
-            opts="${opts} --name --src"
+            opts="${opts} --name --readme --src"
             ;;
 
             (publish)
-            opts="${opts} --build --cert --client-cert --dry-run --password --repository --username"
+            opts="${opts} --build --cert --client-cert --dry-run --password --repository --skip-existing --username"
             ;;
 
             (remove)
-            opts="${opts} --dev --dry-run"
+            opts="${opts} --dev --dry-run --group"
             ;;
 
             (run)
@@ -97,8 +121,32 @@ _poetry_19b43ccf55a7f940_complete()
             opts="${opts} "
             ;;
 
-            (self)
+            ("self add")
+            opts="${opts} --allow-prereleases --dry-run --editable --extras --source"
+            ;;
+
+            ("self install")
+            opts="${opts} --dry-run --sync"
+            ;;
+
+            ("self lock")
+            opts="${opts} --check --no-update"
+            ;;
+
+            ("self remove")
+            opts="${opts} --dry-run"
+            ;;
+
+            ("self show")
+            opts="${opts} --addons --latest --outdated --tree"
+            ;;
+
+            ("self show plugins")
             opts="${opts} "
+            ;;
+
+            ("self update")
+            opts="${opts} --dry-run --preview"
             ;;
 
             (shell)
@@ -106,15 +154,27 @@ _poetry_19b43ccf55a7f940_complete()
             ;;
 
             (show)
-            opts="${opts} --all --latest --no-dev --outdated --tree"
+            opts="${opts} --all --latest --no-dev --only --outdated --tree --why --with --without"
+            ;;
+
+            ("source add")
+            opts="${opts} --default --secondary"
+            ;;
+
+            ("source remove")
+            opts="${opts} "
+            ;;
+
+            ("source show")
+            opts="${opts} "
             ;;
 
             (update)
-            opts="${opts} --dry-run --lock --no-dev"
+            opts="${opts} --dry-run --lock --no-dev --only --with --without"
             ;;
 
             (version)
-            opts="${opts} --short"
+            opts="${opts} --dry-run --short"
             ;;
 
         esac
@@ -127,7 +187,7 @@ _poetry_19b43ccf55a7f940_complete()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="about add build cache check config debug env export help init install lock new publish remove run search self shell show update version"
+        coms="about add build cache clear cache list check config debug info debug resolve env info env list env remove env use export help init install list lock new publish remove run search self add self install self lock self remove self show self show plugins self update shell show source add source remove source show update version"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"
@@ -136,5 +196,5 @@ _poetry_19b43ccf55a7f940_complete()
     fi
 }
 
-complete -o default -F _poetry_19b43ccf55a7f940_complete poetry
-complete -o default -F _poetry_19b43ccf55a7f940_complete /home/local/KHQ/paul.tunison/.poetry/bin/poetry
+complete -o default -F _poetry_53a0b26d6153f720_complete poetry
+complete -o default -F _poetry_53a0b26d6153f720_complete /home/local/KHQ/paul.tunison/.local/share/pypoetry/venv/bin/poetry

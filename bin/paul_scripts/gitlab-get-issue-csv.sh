@@ -10,12 +10,13 @@ function usage {
   echo
   echo "Get issues for a tag and output CSV for an agile poker table."
   echo "from a GitLab instace group given by name."
-  echo "Assumes a default GitLab instance url if 'gitlab.kitware.com'."
+  echo "Assumes a default GitLab instance url if 'https://gitlab.kitware.com'."
   echo "Assumes no default issue tag of (blank string)."
   echo "Assumes default token-file of 'gitlab-api-token.txt'."
   echo
   echo "Options"
   echo "  -h, --help          Show this message."
+  echo "  -u, --url           URL of the gitlab API to make use of."
   echo "  -f, --token-file    Path to a file containing access token value."
   echo "  -t, --tag           Non-default tag to get issues for."
   echo "  -i, --iteration     Sub-select issues retrieved based on those in"
@@ -90,21 +91,32 @@ then
   exit 1
 fi
 
+log "INFO: Acquiring groups list from ${GITLAB_URL}"
 GROUP_NAME="${POSITIONAL[0]}"
-GROUP_ID=$(\
+GROUP_JSON=$(\
   curl -sX GET --header "PRIVATE-TOKEN: $(cat "${TOKEN_FILEPATH}")" \
-  "${GITLAB_URL}"/api/v4/groups \
+  "${GITLAB_URL}"/api/v4/groups
+)
+# Attempt to isolate the specific ID of the currently input group name.
+log "INFO: Checking for presence of '${GROUP_NAME}' in the list."
+GROUP_ID=$(\
+  echo "$GROUP_JSON" \
   | jq -r ".[] | select(.name == \"${GROUP_NAME}\") | .id" \
 )
 if [[ -z "$GROUP_ID" ]]
 then
+  # Extract the list of quoted names.
+  GROUP_NAMES="$(echo "$GROUP_JSON" | jq ".[] | .name")"
   log "ERROR: Could not find a group with the given name '$GROUP_NAME'"
+  log "       Available group names are:"
+  log "${GROUP_NAMES}"
   exit 1
 fi
-log "Group \"${GROUP_NAME}\" ID: ${GROUP_ID}" >&2
+log "INFO: Group \"${GROUP_NAME}\" ID: ${GROUP_ID}"
 
 if [[ "${FILTER_CURRENT_ITERATION}" = "yes" ]]
 then
+  log "INFO: Filtering by the current iteration: figuring out which that is."
   CUR_ITER_JSON=$( \
     curl -sX GET --header "PRIVATE-TOKEN: $(cat "${TOKEN_FILEPATH}")" \
     "${GITLAB_URL}"/api/v4/groups/"${GROUP_ID}"/iterations \
@@ -121,6 +133,7 @@ then
   CUR_ITER_ARGS=( -d iteration_id="${CUR_ITER_ID}" )
 fi
 
+log "INFO: Acquiring issue JSON"
 ISSUE_JSON="$(\
   curl -sX GET \
   --header "PRIVATE-TOKEN: $(cat "${TOKEN_FILEPATH}")" \
@@ -142,20 +155,30 @@ fi
 
 function do_items_query()
 {
-echo "$ISSUE_JSON" \
-  | jq -r "sort_by(.assignee.name, .project_id, .iid)
-           | .[]
-           | [.references.relative, .title, .web_url, .assignee.name]
-           | @csv"
+  echo "$ISSUE_JSON" \
+    | jq -r "sort_by(.assignee.name, .project_id, .iid)
+             | .[]
+             | [.references.relative, .title, .web_url, .assignee.name]
+             | @csv"
+}
+
+function do_items_query_spreadsheet()
+{
+  echo "$ISSUE_JSON" \
+    | jq -r "sort_by(.assignee.name, .project_id, .iid)
+             | .[]
+             | [.title, \"=HYPERLINK(\\\"\" + .web_url + \"\\\", \\\"\" + .references.relative + \"\\\")\", .assignee.name]
+             | @csv"
 }
 
 if [[ "$OPEN_IN_OFFICE" != "yes" ]]
 then
+  log "INFO: Outputting to STDOUT"
   do_items_query
 else
   TMP_OUTPUT="$(mktemp --suffix=.csv)"
   log "INFO: Creating temp file: ${TMP_OUTPUT}"
-  do_items_query >"${TMP_OUTPUT}"
+  do_items_query_spreadsheet >"${TMP_OUTPUT}"
   log "INFO: Opening in LibreOffice"
   libreoffice "$TMP_OUTPUT"
   log "INFO: Removing temp file: ${TMP_OUTPUT}"

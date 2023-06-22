@@ -71,6 +71,8 @@ export LESS="RM"
 
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
+#export TERM=xterm-256color
+
 
 # After this, we only setup things meant for interactive consoles
 if [[ $- = *i* ]]; then
@@ -149,9 +151,9 @@ if [[ $- = *i* ]]; then
 
   if [ "${color_prompt}" ]
   then
-    PS1='\[\033[01;32m\]\u@\h \[\033[01;34m\]\W\[\033[00m\]$(__git_ps1 " (%s)") \$ '
+    PS1='$(date +"%Y-%m-%d %T") \[\033[01;32m\]\u@\h \[\033[01;34m\]\W\[\033[00m\]$(__git_ps1 " (%s)") \$ '
   else
-    PS1='\u@\h \W$(__git_ps1 " (%s)") \$ '
+    PS1='$(date +"%Y-%m-%d %T") \u@\h \W$(__git_ps1 " (%s)") \$ '
   fi
   unset color_prompt
 
@@ -214,14 +216,6 @@ if [[ $- = *i* ]]; then
     . "${VEW_SCRIPT}"
   fi
   unset VEW_SCRIPT
-
-  # Export Poetry user-space bin if present in default location
-  # and not already in the PATH (nested environments).
-  POETRY_BIN="${HOME}/.poetry/bin"
-  if [[ -d "$POETRY_BIN" ]] && [[ "$PATH" != *"$POETRY_BIN"* ]]
-  then
-    export PATH="${POETRY_BIN}:${PATH}"
-  fi
 
   # Mark this TTY as usably for GPG stuff
   export GPG_TTY=$(tty)
