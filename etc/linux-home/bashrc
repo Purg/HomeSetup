@@ -7,7 +7,7 @@ fi
 
 # User specific aliases and functions
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 
@@ -39,8 +39,13 @@ then
   export C_INCLUDE_PATH=${HOME}/.local/include:${C_INCLUDE_PATH}
   export CPLUS_INCLUDE_PATH=${HOME}/.local/include:${CPLUS_INCLUDE_PATH}
 
+  #
   # Sonar-scanner
-  export PATH=${HOME}/sonar-scanner-4.6.2.2472-linux/bin:${PATH}
+  #
+  if [[ -d "${HOME}/sonar-scanner-4.6.2.2472-linux/bin" ]]
+  then
+    export PATH=${HOME}/sonar-scanner-4.6.2.2472-linux/bin:${PATH}
+  fi
 
   #
   # Android setup (if installed)
@@ -217,7 +222,7 @@ if [[ $- = *i* ]]; then
   fi
   unset VEW_SCRIPT
 
-  # Mark this TTY as usably for GPG stuff
+  # Mark this TTY as usable for GPG stuff
   export GPG_TTY=$(tty)
 
   #
@@ -227,4 +232,16 @@ if [[ $- = *i* ]]; then
   then
     eval $(thefuck --alias)
   fi
+
+  #
+  # PyENV
+  #
+  export PYENV_ROOT="${HOME}/.pyenv"
+  if [[ -n "${PYENV_ROOT}/bin" ]]
+  then
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+  fi
+
 fi

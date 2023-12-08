@@ -87,7 +87,7 @@ fi
 if [[ "${#POSITIONAL[@]}" -gt 1 ]]
 then
   log "ERROR: Expected only one positional argument!"
-  log "       Instead received: ${POSITIONAL[@]}"
+  log "       Instead received: " "${POSITIONAL[@]}"
   exit 1
 fi
 
