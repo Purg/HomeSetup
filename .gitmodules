@@ -4,6 +4,9 @@
 [submodule "etc/linux-home/tmux/plugins/tmux-resurrect"]
   path = etc/linux-home/tmux/plugins/tmux-resurrect
   url = https://github.com/tmux-plugins/tmux-resurrect
+[submodule "etc/linux-home/tmux/plugins/tmux-continuum"]
+  path = etc/linux-home/tmux/plugins/tmux-continuum
+  url = https://github.com/tmux-plugins/tmux-continuum
 [submodule "etc/linux-home/vim/bundle/Vundle.vim"]
 	path = etc/linux-home/vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
