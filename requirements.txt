@@ -1,9 +1,4 @@
-ansible
-docker-compose
-git-filter-repo
-ipython_genutils
-magic-wormhole
-nbdime
 pip
+pipx
 virtualenv
 virtualenvwrapper

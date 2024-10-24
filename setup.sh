@@ -83,3 +83,10 @@ vim +PluginInstall +qall
 # Install user-space python packages
 #
 pip3 install --user -r "${home_python_req}"
+
+#
+# PipX Install things
+#
+pipx install ansible
+pipx install magic-wormhole
+pipx install poetry

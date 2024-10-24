@@ -32,3 +32,6 @@ alias lsvirtualenv="lsvirtualenv -b"
 
 # ps but just for me
 alias mps="ps -U$(whoami) -H"
+
+# DIVE docker container run invocation.
+alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"

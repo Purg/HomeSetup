@@ -40,6 +40,14 @@ then
   export CPLUS_INCLUDE_PATH=${HOME}/.local/include:${CPLUS_INCLUDE_PATH}
 
   #
+  # Activate nvm install if present.
+  #
+  export NVM_DIR="${HOME}/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  export NODE_PATH="$NVM_DIR/versions/node/$(node -v)/lib/node_modules:${NODE_PATH}"
+
+  #
   # Sonar-scanner
   #
   if [[ -d "${HOME}/sonar-scanner-4.6.2.2472-linux/bin" ]]
@@ -169,13 +177,6 @@ if [[ $- = *i* ]]; then
   then
     eval $(keychain --agents ssh --eval --quiet)
   fi
-
-  #
-  # Activate nvm install if present.
-  #
-  export NVM_DIR="${HOME}/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
   #
   # Miniconda non-invasive activation
