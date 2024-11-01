@@ -87,7 +87,7 @@ pip3 install --user -r "${home_python_req}"
 #
 # PipX Install things
 #
-pipx install ansible
+pipx install ansible-core
 pipx install git-filter-repo
 pipx install magic-wormhole
 pipx install poetry
