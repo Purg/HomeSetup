@@ -5,10 +5,12 @@
 /etc/linux-home/tmux/resurrect/
 /etc/linux-home/vim/spellfile.en.utf-8.add*
 /lib/
+/pipx/
 /share/
 
 # Python package bin stuff
 # -- Automate?
+/bin/activate-global-python-argcomplete
 /bin/ansible
 /bin/ansible-config
 /bin/ansible-connection
@@ -52,8 +54,11 @@
 /bin/nbmerge-web
 /bin/nbshow
 /bin/pbr
+/bin/poetry
 /bin/pygmentize
 /bin/pyhtmlizer
+/bin/python-argcomplete-check-easy-install-script
+/bin/register-python-argcomplete
 /bin/send2trash
 /bin/tkconch
 /bin/tqdm
