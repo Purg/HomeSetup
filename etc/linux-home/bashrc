@@ -197,7 +197,7 @@ if [[ $- = *i* ]]; then
       break
     fi
   done
-  unset CONDA_SCRIPT CONDA_INSTALL_HINTS
+  unset CONDA_SCRIPT CONDA_INSTALL_HINTS CONDA_SCRIPT_ACTUAL
 
   #
   # Activate virtualenvwrapper if present.
