@@ -10,74 +10,75 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
-
-# One-time setup stuff because of:
-# - variable appending
-# - run-once specific
-if [ -z "${PURG_BASH_ACTIVE}" ]
-then
-  # Git safety
-  export GIT_CEILING_DIRECTORIES="${HOME}"
-
-  # CUDA Toolkit
-  export PATH=/usr/local/cuda/bin:${PATH}
-  export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/lib:${LD_LIBRARY_PATH}
-  export C_INCLUDE_PATH=/usr/local/cuda/include:${C_INCLUDE_PATH}
-  export CPLUS_INCLUDE_PATH=/usr/local/cuda/include:${CPLUS_INCLUDE_PATH}
-
-  # Opt install root
-  export PATH=/opt/local/bin:${PATH}
-  export LD_LIBRARY_PATH=/opt/local/lib64:/opt/local/lib:${LD_LIBRARY_PATH}
-  export MANPATH=/opt/local/share/man:${MANPATH}
-  export C_INCLUDE_PATH=/opt/local/include:${C_INCLUDE_PATH}
-  export CPLUS_INCLUDE_PATH=/opt/local/include:${CPLUS_INCLUDE_PATH}
-
-  # Home install root
-  export PATH=${HOME}/.local/bin:${PATH}
-  export LD_LIBRARY_PATH=${HOME}/.local/lib64:${HOME}/.local/lib:${LD_LIBRARY_PATH}
-  export MANPATH=${HOME}/.local/share/man:${MANPATH}
-  export C_INCLUDE_PATH=${HOME}/.local/include:${C_INCLUDE_PATH}
-  export CPLUS_INCLUDE_PATH=${HOME}/.local/include:${CPLUS_INCLUDE_PATH}
-
-  #
-  # Activate nvm install if present.
-  #
-  export NVM_DIR="${HOME}/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  (command -v node) && export NODE_PATH="$NVM_DIR/versions/node/$(node -v)/lib/node_modules:${NODE_PATH}"
-
-  #
-  # Sonar-scanner
-  #
-  if [[ -d "${HOME}/sonar-scanner-4.6.2.2472-linux/bin" ]]
-  then
-    export PATH=${HOME}/sonar-scanner-4.6.2.2472-linux/bin:${PATH}
-  fi
-
-  #
-  # Android setup (if installed)
-  #
-  EXPECTED_ANDROID_HOME="${HOME}/Android/Sdk"
-  if [ -d "${EXPECTED_ANDROID_HOME}" ]
-  then
-    export ANDROID_HOME=${EXPECTED_ANDROID_HOME}
-    export PATH=${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
-  fi
-
-  EXPECTED_ANDROID_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
-  if [ -d "${EXPECTED_ANDROID_NDK_HOME}" ]
-  then
-    export ANDROID_NDK_HOME=${EXPECTED_ANDROID_NDK_HOME}
-    export PATH=${ANDROID_NDK_HOME}:${PATH}
-  fi
-
-  export PURG_BASH_ACTIVE=1
-fi  # PURG_BASH_ACTIVE
-
+# Git safety
+export GIT_CEILING_DIRECTORIES="${HOME}"
 
 #
-# Constant Variables
+# Activate nvm install if present.
+#
+export NVM_DIR="${HOME}/.nvm"
+
+# Prepend update path-like variables if our desired content is not already
+# present.
+prepend_if_missing() {
+  local var_name="$1"
+  local value="$2"
+  local current="${!var_name}"
+  if [[ ":$current:" != *":$value:"* ]]
+  then
+    if [[ -n "$current" ]]
+    then
+      printf -v "$var_name" '%s:%s' "$value" "$current"
+    else
+      printf -v "$var_name" '%s' "$value"
+    fi
+  fi
+  export "$var_name"
+}
+
+# CUDA Toolkit paths
+prepend_if_missing PATH /usr/local/cuda/bin
+prepend_if_missing LD_LIBRARY_PATH /usr/local/cuda/lib64:/usr/local/cuda/lib
+prepend_if_missing C_INCLUDE_PATH /usr/local/cuda/include
+prepend_if_missing CPLUS_INCLUDE_PATH /usr/local/cuda/include
+
+# Opt Install Root
+prepend_if_missing PATH /opt/local/bin
+prepend_if_missing LD_LIBRARY_PATH /opt/local/lib64:/opt/local/lib
+prepend_if_missing MANPATH /opt/local/share/man
+prepend_if_missing C_INCLUDE_PATH /opt/local/include
+prepend_if_missing CPLUS_INCLUDE_PATH /opt/local/include
+
+# Home install root
+prepend_if_missing PATH ${HOME}/.local/bin
+prepend_if_missing LD_LIBRARY_PATH ${HOME}/.local/lib64:${HOME}/.local/lib
+prepend_if_missing MANPATH ${HOME}/.local/share/man
+prepend_if_missing C_INCLUDE_PATH ${HOME}/.local/include
+prepend_if_missing CPLUS_INCLUDE_PATH ${HOME}/.local/include
+
+# Sonar Scanner
+if [[ -d "${HOME}/sonar-scanner-4.6.2.2472-linux/bin" ]]
+then
+  prepend_if_missing PATH ${HOME}/sonar-scanner-4.6.2.2472-linux/bin
+fi
+
+# Android setup (if installed)
+EXPECTED_ANDROID_HOME="${HOME}/Android/Sdk"
+if [ -d "${EXPECTED_ANDROID_HOME}" ]
+then
+  export ANDROID_HOME=${EXPECTED_ANDROID_HOME}
+  prepend_if_missing PATH ${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+fi
+
+EXPECTED_ANDROID_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
+if [ -d "${EXPECTED_ANDROID_NDK_HOME}" ]
+then
+  export ANDROID_NDK_HOME=${EXPECTED_ANDROID_NDK_HOME}
+  prepend_if_missing PATH ${ANDROID_NDK_HOME}
+fi
+
+#
+# Other Constant Variables
 #
 export EDITOR=vim
 export LESS="RM"
@@ -244,5 +245,9 @@ if [[ $- = *i* ]]; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
   fi
+
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  (command -v node) && export NODE_PATH="$NVM_DIR/versions/node/$(node -v)/lib/node_modules:${NODE_PATH}"
 
 fi

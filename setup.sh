@@ -82,7 +82,18 @@ vim +PluginInstall +qall
 #
 # Install user-space python packages
 #
-pip3 install --user -r "${home_python_req}"
+# pip3 install --user -r "${home_python_req}"
+if [ "$(lsb_release -si 2>/dev/null)" = "Ubuntu" ]
+then
+  sudo apt install \
+    pipx \
+    python3-virtualenv \
+    python3-virtualenvwrapper
+else
+  echo "No installation instructions for basic installs on platform:"
+  lsb_release -a
+  exit 1
+fi
 
 #
 # PipX Install things
