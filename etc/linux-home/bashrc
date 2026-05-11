@@ -176,7 +176,14 @@ if [[ $- = *i* ]]; then
   #
   if [ -n "$(command -v keychain)" ] && [ "${SSH_AGENT_PID}" = "" ]
   then
-    eval $(keychain --agents ssh --eval --quiet)
+    # Newer versions (2.9+) of keychain don't have the --agents option.
+    if $(keychain --help 2<&1 | grep -E '^\s+--agents' >/dev/null)
+    then
+      # Older versions of keychain
+      eval $(keychain --agents ssh --eval --quiet)
+    else
+      eval $(keychain --eval --quiet)
+    fi
   fi
 
   #
