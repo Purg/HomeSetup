@@ -12,3 +12,8 @@ errors.log
 
 # CTags
 tags
+
+# Agent things
+/Agent.md
+/Claude.md
+/.claude/

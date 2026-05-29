@@ -13,11 +13,6 @@ fi
 # Git safety
 export GIT_CEILING_DIRECTORIES="${HOME}"
 
-#
-# Activate nvm install if present.
-#
-export NVM_DIR="${HOME}/.nvm"
-
 # Prepend update path-like variables if our desired content is not already
 # present.
 prepend_if_missing() {
@@ -253,6 +248,8 @@ if [[ $- = *i* ]]; then
     eval "$(pyenv virtualenv-init -)"
   fi
 
+  # Activate NVM
+  export NVM_DIR="${HOME}/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
   (command -v node) && export NODE_PATH="$NVM_DIR/versions/node/$(node -v)/lib/node_modules:${NODE_PATH}"
