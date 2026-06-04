@@ -82,10 +82,25 @@ vim +PluginInstall +qall
 #
 # Install user-space python packages
 #
-# pip3 install --user -r "${home_python_req}"
-if [ "$(lsb_release -si 2>/dev/null)" = "Ubuntu" ]
+# When expanding beyond Ubuntu/Fedora, check on the assumption of package
+# naming formats across platforms that use the same package management tool.
+# I.e. Maybe Debian packages are named different than Ubuntu, etc., in such a
+# way that grouping installation logic by package management tool is actually
+# invalid.
+#
+>&2 echo "Installing required system packages"
+OS_TAG="$(lsb_release -si 2>/dev/null)"
+USES_APT=( "Ubuntu" )
+USES_DNF=( "Fedora" )
+if [[ " ${USES_apt} " =~ [[:space:]]"${OS_TAG}"[[:space:]] ]]
 then
   sudo apt install \
+    pipx \
+    python3-virtualenv \
+    python3-virtualenvwrapper
+elif [[ " ${USES_DNF} " =~ [[:space:]]"${OS_TAG}"[[:space:]] ]]
+then
+  sudo dnf install \
     pipx \
     python3-virtualenv \
     python3-virtualenvwrapper
@@ -102,3 +117,4 @@ pipx install ansible-core
 pipx install git-filter-repo
 pipx install magic-wormhole
 pipx install poetry
+pipx install uv
