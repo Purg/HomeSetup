@@ -1,5 +1,12 @@
 #!/bin/bash
+set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-UNCRUST_EXE="$SCRIPT_DIR"/uncrustify
+UNCRUST_EXE="$(command -v uncrustify)"
+HAS_NATIVE_EXE="$?"
+if [[ "${HAS_NATIVE_EXE}" -ne 0 ]]
+then
+  UNCRUST_EXE="$SCRIPT_DIR"/uncrustify
+fi
+>&2 echo "Using uncrustify=${UNCRUST_EXE}"
 
 "$UNCRUST_EXE" -lCPP "$@"
