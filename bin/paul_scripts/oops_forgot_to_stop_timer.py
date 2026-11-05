@@ -16,10 +16,61 @@ Output Format:
 """
 
 import datetime
+import logging
+import re
+
 import click
 
 
+logger = logging.getLogger(__name__)
+
 DAY_LIST = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+# A timestamp input is "fully qualified" when it names both an absolute
+# calendar date and a clock time, e.g. "2026-11-05 14:30" or
+# "2026-11-05 14:30:00". Anything else (e.g. "last friday, 8pm",
+# "yesterday 3pm", "2 hours ago", or a bare date) is resolved relative to
+# the current time and is therefore logged.
+FULLY_QUALIFIED_RE = re.compile(
+    r'^\s*\d{4}-\d{1,2}-\d{1,2}[ T]\d{1,2}:\d{2}(:\d{2}(\.\d+)?)?\s*$'
+)
+
+
+def is_fully_qualified(dt_str: str) -> bool:
+    """Check whether a timestamp input names a single explicit moment in time.
+
+    Args:
+        dt_str: A raw timestamp input string.
+
+    Returns:
+        True if the string states both an absolute calendar date and a
+        clock time (e.g., '2026-11-05 14:30:00'). False for relative or
+        natural-language expressions (e.g., 'last friday', 'yesterday 3pm')
+        and for dates without a time component.
+    """
+    return bool(FULLY_QUALIFIED_RE.match(dt_str))
+
+
+def log_resolved_timestamp(label: str, dt_str: str, resolved: datetime.datetime) -> None:
+    """Log how a non-fully-qualified timestamp input was interpreted.
+
+    Emits an INFO line showing the explicit moment in time that was
+    resolved from the input. Fully qualified inputs (absolute date plus
+    clock time) are unambiguous and are not logged.
+
+    Args:
+        label: Human-readable name of the input being resolved (e.g.,
+            '--should-have-stopped').
+        dt_str: The raw timestamp input string.
+        resolved: The datetime that the input was resolved to.
+    """
+    interpreted_as_prefix = ""
+    if not is_fully_qualified(dt_str):
+        interpreted_as_prefix = f"interpreted '{dt_str}' as "
+    logger.info(
+        "%s: %s'%s'",
+        label, interpreted_as_prefix, resolved.strftime('%Y-%m-%d %H:%M:%S'),
+    )
 
 
 def parse_time_delta(time_str: str) -> datetime.timedelta:
@@ -214,14 +265,20 @@ def main(timer_reading, should_have_stopped, actually_stopped):
     OUTPUT:
         HH:MM format representing the calculated "Actual Time Left".
     """
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+
     # Parse intended stop time
     should_stop_dt = parse_datetime(should_have_stopped)
+    log_resolved_timestamp('--should-have-stopped', should_have_stopped, should_stop_dt)
 
     # Parse actual stop time or default to now
     if actually_stopped:
         actual_stop_dt = parse_datetime(actually_stopped)
+        log_resolved_timestamp('--actually-stopped', actually_stopped, actual_stop_dt)
     else:
         actual_stop_dt = datetime.datetime.now()
+        logger.info("--actually-stopped: not given, interpreted as %s",
+                    actual_stop_dt.strftime('%Y-%m-%d %H:%M:%S'))
 
     # Validation: Ensure logical order of events
     if actual_stop_dt < should_stop_dt:
@@ -236,21 +293,19 @@ def main(timer_reading, should_have_stopped, actually_stopped):
     # Calculate what the reading would have been at the intended stop time
     actual_delta = timer_reading - extra_time
 
-    print(f"should_have_stopped: {should_have_stopped}")
-    print(f"actual_stop_dt: {actual_stop_dt}")
-    print(f"timer_reading: {timer_reading}")
-    print(f"extra_time: {extra_time}")
-    print(f"actual_delta: {actual_delta}")
+    logger.info(f"timer_reading: {timer_reading}")
+    logger.info(f"extra_time: {extra_time}")
+    logger.info(f"actual_delta: {actual_delta}")
 
     if actual_delta < datetime.timedelta(0):
-        click.echo("Warning: The calculated time is negative. ")
-        click.echo("This means the timer reading was likely lower than the 'extra' time ran,")
-        click.echo("or the timer had already expired before you stopped it.")
-        click.echo(f"Calculated value: {actual_delta}")
-        click.echo(f"Actual Time Left: 00:00 (Timer has expired)")
+        logger.warning("Warning: The calculated time is negative. ")
+        logger.warning("This means the timer reading was likely lower than the 'extra' time ran,")
+        logger.warning("or the timer had already expired before you stopped it.")
+        logger.warning(f"Calculated value: {actual_delta}")
+        logger.warning(f"Actual Time Left: 00:00 (Timer has expired)")
     else:
         formatted_remaining = format_to_hours_minutes(actual_delta)
-        click.echo(f"Actual time left: {formatted_remaining}")
+        logger.info(f"Actual time left: {formatted_remaining}")
 
 
 if __name__ == '__main__':
