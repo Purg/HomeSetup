@@ -72,6 +72,13 @@ then
   prepend_if_missing PATH ${ANDROID_NDK_HOME}
 fi
 
+# Docker SBX local install within .docker
+EXPECTED_DOCKER_LOCAL_SBX="${HOME}/.docker/sbx/bin"
+if [ -d "$EXPECTED_DOCKER_LOCAL_SBX" ]
+then
+  prepend_if_missing PATH "${EXPECTED_DOCKER_LOCAL_SBX}"
+fi
+
 #
 # Other Constant Variables
 #
