@@ -96,12 +96,14 @@ if [[ " ${USES_apt} " =~ [[:space:]]"${OS_TAG}"[[:space:]] ]]
 then
   sudo apt install \
     pipx \
+    python3-dateparser \
     python3-virtualenv \
     python3-virtualenvwrapper
 elif [[ " ${USES_DNF} " =~ [[:space:]]"${OS_TAG}"[[:space:]] ]]
 then
   sudo dnf install \
     pipx \
+    python3-dateparser \
     python3-virtualenv \
     python3-virtualenvwrapper
 else
